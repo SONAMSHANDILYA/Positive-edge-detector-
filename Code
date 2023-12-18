@@ -1,0 +1,19 @@
+module positive_edge_detector(
+    input wire clk,     // Clock input
+    input wire reset,   // Reset input
+    output reg pos_edge // Output indicating positive edge detection
+);
+
+    reg clk_prev; // Previous value of the clock
+
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            clk_prev <= 1'b0; // Reset the previous clock value
+            pos_edge <= 1'b0; // Reset the positive edge flag
+        end else begin
+            clk_prev <= clk; // Store the previous clock value
+            pos_edge <= (clk == 1'b1 && clk_prev == 1'b0); // Detect rising edge
+        end
+    end
+
+endmodule
